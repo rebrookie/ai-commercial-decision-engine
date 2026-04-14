@@ -1,0 +1,7 @@
+date,region,product,revenue,volume,price
+2024-01,Europe,A,100000,500,200
+2024-01,Europe,B,80000,400,200
+2024-01,Asia,A,90000,600,150
+2024-02,Europe,A,120000,550,218
+2024-02,Europe,B,70000,350,200
+2024-02,Asia,A,95000,620,153
