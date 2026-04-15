@@ -57,9 +57,10 @@ col3.metric("Price", f"{kpis.get('price', 'N/A')}")
 st.header("📈 Trend Analysis")
 
 try:
+    # ------------------------
+    # Data preparation
+    # ------------------------
     df["date"] = pd.to_datetime(df["date"])
-
-    # 👉 按月聚合（关键）
     df["month"] = df["date"].dt.to_period("M").astype(str)
 
     monthly = df.groupby("month").agg(
@@ -68,23 +69,32 @@ try:
         price=("price", "mean")
     ).reset_index()
 
+    # ------------------------
+    # Figure
+    # ------------------------
     fig = go.Figure()
 
-    # 📦 Volume (stacked bar)
-    fig.add_bar(
-        x=monthly["month"],
-        y=monthly["volume"],
-        name="Volume"
+    # 💰 Revenue (PRIMARY - bar)
+    fig.add_trace(
+        go.Bar(
+            x=monthly["month"],
+            y=monthly["revenue"],
+            name="Revenue"
+        )
     )
 
-    # 💰 Revenue (bar)
-    fig.add_bar(
-        x=monthly["month"],
-        y=monthly["revenue"],
-        name="Revenue"
+    # 📦 Volume (SECONDARY - line)
+    fig.add_trace(
+        go.Scatter(
+            x=monthly["month"],
+            y=monthly["volume"],
+            mode="lines+markers",
+            name="Volume",
+            yaxis="y2"
+        )
     )
 
-    # 💲 Price (line)
+    # 💲 Price (SECONDARY - line)
     fig.add_trace(
         go.Scatter(
             x=monthly["month"],
@@ -95,18 +105,21 @@ try:
         )
     )
 
-    # 🎯 Layout (dual axis + titles)
+    # ------------------------
+    # Layout (BI-style)
+    # ------------------------
     fig.update_layout(
-        title="Monthly Revenue, Volume & Price Trend",
+        title="Monthly Revenue with Key Drivers (Volume & Price)",
         xaxis_title="Month",
-        yaxis_title="Revenue / Volume",
+        yaxis_title="Revenue",
         yaxis2=dict(
-            title="Avg Price",
+            title="Volume / Price",
             overlaying="y",
             side="right"
         ),
-        barmode="stack",
-        legend=dict(x=0, y=1.1, orientation="h")
+        barmode="group",
+        legend=dict(x=0, y=1.15, orientation="h"),
+        template="plotly_white"
     )
 
     st.plotly_chart(fig, use_container_width=True)
