@@ -138,7 +138,7 @@ with tab2:
 
     user_question = st.text_input(
         "Ask questions about pricing, revenue, or customer behavior:",
-        value="Why is Product C priced higher for Customer D compared to Customer A?"
+        value="Why is revenue of Prod C for Customer D far less than price x volume?"
     )
 
     if st.button("Ask AI"):
@@ -242,6 +242,6 @@ with st.sidebar:
     - 📧 Email: lin7.liu@gmail.com  
 
     Feel free to reach out for:
-    - Feedback, opportunities, collabration etc.
+    - Feedback, opportunities, collaboration etc.
     - AI & Commercial Strategy discussions  
     """)
