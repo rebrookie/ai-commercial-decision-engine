@@ -38,6 +38,20 @@ with st.expander("🔍 View Raw Data"):
 kpis = calculate_kpis(df)
 
 
+# ------------------------
+# 轻量版 RAG（Data-aware Chat）
+# ------------------------
+st.header("💬 Ask AI about your data")
+
+user_question = st.text_input("Ask a question about your business data:")
+
+if user_question:
+    with st.spinner("Thinking..."):
+        answer = generate_chat_response(user_question, df, kpis)
+        st.write(answer)
+
+
+
 
 # ------------------------
 # Layout - Business Overview
@@ -159,14 +173,3 @@ if st.button("Run AI Analysis"):
 
 
 
-# ------------------------
-# 轻量版 RAG（Data-aware Chat）
-# ------------------------
-st.header("💬 Ask AI about your data")
-
-user_question = st.text_input("Ask a question about your business data:")
-
-if user_question:
-    with st.spinner("Thinking..."):
-        answer = generate_chat_response(user_question, df)
-        st.write(answer)
