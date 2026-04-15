@@ -6,4 +6,4 @@ date,sale_stage,customer,region,category,product,revenue,volume,price
 2026-02,closed_won,Customer B,Europe,5G RAN SW,Prod C,70000,350,200
 2026-02,closed_won,Customer C,Asia,5G RAN HW,Prod A,95000,620,153
 2026-03,ongoing,Customer C,Asia,5G RAN HW,Prod C,35000,420,156
-2026-04,ongoing,Customer B,Asia,5G RAN SW,Prod C,55000,660,350
+2026-03,ongoing,Customer B,Asia,5G RAN SW,Prod C,55000,660,350
