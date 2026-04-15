@@ -2,10 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
+
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
 from src.insight_generator import generate_insight
 from src.recommendation_engine import generate_recommendation
+from src.insight_generator import generate_insight, generate_chat_response
 
 # ------------------------
 # Page Config
@@ -154,3 +156,17 @@ if st.button("Run AI Analysis"):
         except Exception as e:
             st.error(f"Error generating AI output: {e}")
 
+
+
+
+# ------------------------
+# 轻量版 RAG（Data-aware Chat）
+# ------------------------
+st.header("💬 Ask AI about your data")
+
+user_question = st.text_input("Ask a question about your business data:")
+
+if user_question:
+    with st.spinner("Thinking..."):
+        answer = generate_chat_response(user_question, df)
+        st.write(answer)

@@ -7,6 +7,13 @@ def calculate_kpis(df):
     total_volume = df['volume'].sum()
     avg_price = total_revenue / total_volume
 
+    kpis = {
+        "Total Revenue": f"{total_revenue:,.0f}",
+        "Total Volume": f"{total_volume:,.0f}",
+        "Average Price": f"{avg_price:.2f}"
+    }
+
+
     # 按时间排序
     df_sorted = df.sort_values('date')
 
@@ -23,5 +30,8 @@ def calculate_kpis(df):
     kpis['total_volume'] = total_volume
     kpis['avg_price'] = round(avg_price, 2)
     kpis['monthly_trend'] = monthly.to_dict(orient='records')
+
+    
+
 
     return kpis

@@ -29,3 +29,32 @@ Be concise and business-focused.
     )
 
     return response.choices[0].message.content
+
+def generate_chat_response(question, df, kpis):
+
+    sample_data = df.head(20).to_dict()
+
+    prompt = f"""
+    You are a commercial strategy analyst.
+
+    Business KPIs:
+    {kpis}
+
+    Sample data:
+    {sample_data}
+
+    User question:
+    {question}
+
+    Please provide:
+    - Clear answer
+    - Business insight
+    - Actionable recommendation
+    """
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    return response.choices[0].message.content
