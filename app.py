@@ -1,73 +1,80 @@
 import streamlit as st
-import os
+import pandas as pd
 
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
 from src.insight_generator import generate_insight
 from src.recommendation_engine import generate_recommendation
-import pandas as pd
+
+# ------------------------
+# Page Config
+# ------------------------
+st.set_page_config(page_title="AI Commercial Decision Engine", layout="wide")
 
 st.title("🚀 AI Commercial Decision Engine")
-st.markdown("This tool demonstrates how commercial analytics can evolve from static reporting into AI-driven decision intelligence, enabling faster and more actionable business insights.")
+st.markdown(
+    "Transforming commercial analytics from **reporting → decision intelligence**"
+)
 
-# --- Load data ---
-df = pd.read_csv("data/sales_data.csv")
+# ------------------------
+# Load Data
+# ------------------------
+df = load_data("data/sales_data.csv")
 
-# --- Generate insight ---
-insight = ""
-recommendation = ""
+# ------------------------
+# KPI Calculation
+# ------------------------
+kpis = calculate_kpis(df)
 
-try:
-    insight = generate_insight(df)
-    recommendation = generate_recommendation(insight)
-except Exception as e:
-    st.error(f"Error generating AI output: {e}")
-
-# --- UI ---
+# ------------------------
+# Layout - Business Overview
+# ------------------------
 st.header("📊 Business Overview")
 
 col1, col2, col3 = st.columns(3)
-col1.metric("Revenue", "€12.5M", "+5%")
-col2.metric("Volume", "1.2M units", "-2%")
-col3.metric("Price", "€10.4", "+7%")
 
+col1.metric("Revenue", f"{kpis.get('revenue', 'N/A')}")
+col2.metric("Volume", f"{kpis.get('volume', 'N/A')}")
+col3.metric("Price", f"{kpis.get('price', 'N/A')}")
+
+# ------------------------
+# Trend Analysis
+# ------------------------
 st.header("📈 Trend Analysis")
-st.line_chart(df.set_index("date")["revenue"])
 
-st.header("🧠 AI Insight")
-st.write(insight)
+try:
+    df["date"] = pd.to_datetime(df["date"])
+    df_sorted = df.sort_values("date")
+    st.line_chart(df_sorted.set_index("date")["revenue"])
+except Exception:
+    st.warning("No valid 'date' column found for trend analysis.")
 
-st.header("💡 Recommendation")
-st.write(recommendation)
+# ------------------------
+# Run AI Analysis Button
+# ------------------------
+st.header("🧠 AI Analysis")
 
-# ✅ 读取数据（必须相对路径）
-df = load_data("data/sales_data.csv")
+if st.button("Run AI Analysis"):
 
-st.subheader("Raw Data")
-st.dataframe(df)
+    with st.spinner("Generating insights..."):
 
-if st.button("Run Analysis"):
+        try:
+            insight = generate_insight(df)
+            recommendation = generate_recommendation(insight)
 
-    kpis = calculate_kpis(df)
-    st.subheader("KPIs")
-    st.write(kpis)
+            # Insight
+            st.subheader("🧠 Insight")
+            st.write(insight)
 
-    # ✅ 从环境变量读取 key（关键）
-    api_key = None
-    if "OPENAI_API_KEY" in st.secrets:
-        api_key = st.secrets["OPENAI_API_KEY"]
-    elif "OPENAI_API_KEY" in os.environ:
-        api_key = os.environ["OPENAI_API_KEY"]
+            # Recommendation
+            st.subheader("💡 Recommendation")
+            st.write(recommendation)
 
-    if api_key:
-        os.environ["OPENAI_API_KEY"] = api_key
-    else:
-        st.error("No API key found.")
+        except Exception as e:
+            st.error(f"Error generating AI output: {e}")
 
-    insight = generate_insight(kpis)
-    st.subheader("AI Insight")
-    st.write(insight)
-
-    recommendation = generate_recommendation(insight)
-    st.subheader("Recommendations")
-    st.write(recommendation)
+# ------------------------
+# Optional: Raw Data (collapsed)
+# ------------------------
+with st.expander("🔍 View Raw Data"):
+    st.dataframe(df)
