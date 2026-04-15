@@ -130,14 +130,14 @@ with tab1:
 # TAB 2 — Ask AI
 # =========================================================
 with tab2:
-    st.markdown("### 💬 Ask questions about pricing, revenue, or customer behavior")
+    
     MAX_USAGE = 5
     COOLDOWN_SECONDS = 10
 
     st.header("💬 Ask AI about your data")
 
     user_question = st.text_input(
-        "Ask a question:",
+        "Ask questions about pricing, revenue, or customer behavior:",
         value="Why is Product C priced higher for Customer D compared to Customer A?"
     )
 
