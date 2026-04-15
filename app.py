@@ -23,10 +23,8 @@ if "last_call_time" not in st.session_state:
 st.set_page_config(page_title="AI Commercial Decision Engine", layout="wide")
 
 st.title("🚀 AI Commercial Decision Engine")
+st.markdown("Transforming commercial analytics from **reporting → decision intelligence**")
 st.info("⚠️ This is a demo version of an AI-powered commercial decision system.")
-st.markdown(
-    "Transforming commercial analytics from **reporting → decision intelligence**"
-)
 
 # ------------------------
 # Load Data
