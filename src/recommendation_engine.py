@@ -2,14 +2,15 @@ from src.utils.openai_client import get_openai_client
 
 def generate_recommendation(insight):
     prompt = f"""
-    Based on the following business insight:
+    You are a commercial strategy advisor.
 
+    Based on this insight:
     {insight}
 
-    Provide 2-3 actionable recommendations for:
-    - pricing strategy
-    - revenue growth
-    - regional optimization
+    Provide:
+    - 3 actionable recommendations
+    - Focus on revenue growth, pricing, or customer strategy
+    - Be specific and practical
     """
 
     client = get_openai_client()

@@ -6,17 +6,17 @@ client = get_openai_client()
 
 def generate_insight(kpis):
     prompt = f"""
-    You are a senior commercial strategy analyst.
+    You are a senior commercial strategy consultant.
 
-    Given the following KPIs and trends:
-    {kpis}
+    Given the following business data:
+    {data_summary}
 
-    Analyze:
-    1. Revenue trend over time
-    2. Key growth drivers or declines
-    3. Any pricing or volume impact
+    Provide:
+    1. Key business insight (what is happening)
+    2. Root cause (why it is happening)
+    3. Risk or opportunity
 
-    Provide a structured business insight.
+    Be concise and business-focused.
     """
 
     response = client.chat.completions.create(

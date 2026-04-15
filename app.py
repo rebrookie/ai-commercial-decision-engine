@@ -5,8 +5,30 @@ from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
 from src.insight_generator import generate_insight
 from src.recommendation_engine import generate_recommendation
+import pandas as pd
 
-st.title("AI-driven Commercial Decision Engine")
+
+st.title("🚀 AI Commercial Decision Engine")
+st.markdown("Transforming analytics from reporting → decision-making")
+st.markdown("This tool demonstrates how commercial analytics can evolve from static reporting into AI-driven decision intelligence, enabling faster and more actionable business insights.")
+
+st.header("📊 Business Overview")
+
+col1, col2, col3 = st.columns(3)
+col1.metric("Revenue", "€12.5M", "+5%")
+col2.metric("Volume", "1.2M units", "-2%")
+col3.metric("Price", "€10.4", "+7%")
+
+df = pd.read_csv("data/sales_data.csv")
+
+st.header("📈 Trend Analysis")
+st.line_chart(df.set_index("date")["revenue"])
+
+st.header("🧠 AI Insight")
+st.write(insight)
+
+st.header("💡 Recommendation")
+st.write(recommendation)
 
 # ✅ 读取数据（必须相对路径）
 df = load_data("data/sales_data.csv")
