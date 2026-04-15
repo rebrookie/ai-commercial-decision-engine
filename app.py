@@ -1,7 +1,12 @@
+st.write("APP STARTED")
+
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import time
+
+st.write("DF LOADED", df.shape)
+st.write("COLUMNS", df.columns)
 
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
