@@ -61,13 +61,17 @@ try:
     # Data preparation
     # ------------------------
     df["date"] = pd.to_datetime(df["date"])
-    df["month"] = df["date"].dt.to_period("M").astype(str)
 
-    monthly = df.groupby("month").agg(
+    df["month_num"] = df["date"].dt.month
+    df["month"] = df["date"].dt.strftime("%b")
+
+    monthly = df.groupby(["month_num", "month"]).agg(
         revenue=("revenue", "sum"),
         volume=("volume", "sum"),
         price=("price", "mean")
     ).reset_index()
+
+    monthly = monthly.sort_values("month_num")
 
     # ------------------------
     # Figure
