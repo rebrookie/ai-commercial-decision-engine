@@ -47,11 +47,11 @@ with st.expander("🔍 View Raw Data"):
 # ------------------------
 # Tabs
 # ------------------------
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3 = st.tabs([
     "📊 Business Overview",
     "💬 Ask AI about your data",
-    "🧠 Persona Based AI Analysis",
-    "👤 About / Contact"
+    "🧠 Persona Based AI Analysis"
+    
 ])
 
 # =========================================================
@@ -205,9 +205,15 @@ with tab3:
 # =========================================================
 # Sidebar — Contact
 # =========================================================
+st.set_page_config(
+    page_title="AI Commercial Decision Engine",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
 with st.sidebar:
 
-    st.title("🚀 AI Commercial Engine")
+    st.title("🚀 AI Commercial Decision Engine")
 
     st.markdown("""
     Hi, I’m **Lin Liu**, a Commercial Analytics & AI Strategy professional with 15+ years of experience across R&D, Project Management, and Data-driven Commercial Strategy.
