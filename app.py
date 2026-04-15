@@ -1,11 +1,20 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import time
 
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
 from src.insight_generator import generate_insight, generate_chat_response
 from src.recommendation_engine import generate_recommendation
+
+
+if "usage_count" not in st.session_state:
+    st.session_state.usage_count = 0
+
+if "last_call_time" not in st.session_state:
+    st.session_state.last_call_time = 0
+
 
 # ------------------------
 # Page Config
@@ -13,6 +22,7 @@ from src.recommendation_engine import generate_recommendation
 st.set_page_config(page_title="AI Commercial Decision Engine", layout="wide")
 
 st.title("🚀 AI Commercial Decision Engine")
+st.info("⚠️ This is a demo version of an AI-powered commercial decision system.")
 st.markdown(
     "Transforming commercial analytics from **reporting → decision intelligence**"
 )
@@ -121,6 +131,9 @@ with tab1:
 # TAB 2 — Ask AI
 # =========================================================
 with tab2:
+    st.markdown("### 💬 Ask questions about pricing, revenue, or customer behavior")
+    MAX_USAGE = 5
+    COOLDOWN_SECONDS = 10
 
     st.header("💬 Ask AI about your data")
 
@@ -130,18 +143,33 @@ with tab2:
     )
 
     if st.button("Ask AI"):
+
+        now = time.time()
+
+        # -------------------------
+        # Cooldown control (anti spam)
+        # -------------------------
+        if now - st.session_state.last_call_time < COOLDOWN_SECONDS:
+            st.warning("Please wait a few seconds before next query.")
+            st.stop()
+
+        # -------------------------
+        # Usage limit control
+        # -------------------------
+        if st.session_state.usage_count >= MAX_USAGE:
+            st.error("Demo limit reached. Please contact me for full access.")
+            st.stop()
+
+        # -------------------------
+        # Call AI
+        # -------------------------
         with st.spinner("Analyzing..."):
             answer = generate_chat_response(user_question, df, kpis)
             st.write(answer)
 
-    # Quick action (nice UX)
-    if st.button("Analyze pricing difference (Prod C)"):
-        answer = generate_chat_response(
-            "Why is Product C priced higher for Customer D compared to Customer A?",
-            df,
-            kpis
-        )
-        st.write(answer)
+            # update usage
+            st.session_state.usage_count += 1
+            st.session_state.last_call_time = now
 
 # =========================================================
 # TAB 3 — Persona AI Analysis
@@ -174,35 +202,42 @@ with tab3:
 
 
 # =========================================================
-# TAB 4 — Contact
+# Sidebar — Contact
 # =========================================================
-with tab4:
+with st.sidebar:
 
-    st.header("👤 About Me")
+    st.title("🚀 AI Commercial Engine")
 
     st.markdown("""
-Hi, I’m **Lin Liu**, a Commercial Analytics & AI Strategy professional with 15+ years of experience across R&D, Project Management, and Data-driven Commercial Strategy.
+    Hi, I’m **Lin Liu**, a Commercial Analytics & AI Strategy professional with 15+ years of experience across R&D, Project Management, and Data-driven Commercial Strategy.
 
-I specialize in:
-- Turning data into business decisions  
-- Bridging strategy and analytics  
-- Building AI-powered decision tools  
+    I specialize in:
+    - Turning data into business decisions  
+    - Bridging strategy and analytics  
+    - Building AI-powered decision tools  
 
----
+    ---
 
-### 🚀 About This Project
+    ### 🚀 About This Project
 
-I built this AI-powered commercial decision engine that allows business users to query data in natural language and receive strategy-level insights.
-It well demostrates how we convert and eable from data Reporting → Decision Intelligence
+    I built this AI-powered commercial decision engine that allows business users to query data in natural language and receive strategy-level insights.
+    It well demostrates how we convert and eable from data Reporting → Decision Intelligence
 
----
+    ---
+                
+    ### ⚙️ Demo Limits
+                
+    - Max queries: 5
+    - Cooldown: 10s
+    
+    ---
 
-### 📬 Contact
+    ### 📬 Contact
 
-- 💼 LinkedIn: https://www.linkedin.com/in/linl1/  
-- 📧 Email: lin7.liu@gmail.com  
+    - 💼 LinkedIn: https://www.linkedin.com/in/linl1/  
+    - 📧 Email: lin7.liu@gmail.com  
 
-Feel free to reach out for:
-- Feedback, opportunities, collabration etc.
-- AI & Commercial Strategy discussions  
-""")
+    Feel free to reach out for:
+    - Feedback, opportunities, collabration etc.
+    - AI & Commercial Strategy discussions  
+    """)
