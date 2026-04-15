@@ -9,7 +9,7 @@ def generate_insight(df):
 
     # ✅ Step 2: prompt
     prompt = f"""
-You are a senior commercial strategy consultant.
+You are a senior commercial strategy consultant of Telecom industry to provide insights only from telecom equipment providers' perspectives.
 
 Given the following business data summary:
 {data_summary}
