@@ -211,9 +211,8 @@ st.set_page_config(
 
 with st.sidebar:
 
-    st.title("🚀 AI Commercial Decision Engine")
-
     st.markdown("""
+    ### 🚀 AI Commercial Decision Engine
     Hi, I’m **Lin Liu**, a Commercial Analytics & AI Strategy professional with 15+ years of experience across R&D, Project Management, and Data-driven Commercial Strategy.
 
     I specialize in:
@@ -223,7 +222,7 @@ with st.sidebar:
 
     ---
 
-    ### 🚀 About This Project
+    ### 💡 About This Project
 
     I built this AI-powered commercial decision engine that allows business users to query data in natural language and receive strategy-level insights.
     It well demostrates how we convert and eable from data Reporting → Decision Intelligence
