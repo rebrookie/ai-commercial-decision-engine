@@ -44,9 +44,9 @@ st.header("📊 Business Overview")
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("Revenue", f"{kpis.get('total_revenue', 'N/A')}")
-col2.metric("Volume", f"{kpis.get('total_volume', 'N/A')}")
-col3.metric("Price", f"{kpis.get('avg_price', 'N/A')}")
+col1.metric("Tot Revenue", f"{kpis.get('total_revenue', 'N/A')}")
+col2.metric("Tot Volume", f"{kpis.get('total_volume', 'N/A')}")
+col3.metric("Avg Price", f"{kpis.get('avg_price', 'N/A')}")
 
 
 # ------------------------

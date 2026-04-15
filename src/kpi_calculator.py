@@ -20,6 +20,7 @@ def calculate_kpis(df):
     monthly['revenue_growth'] = monthly['revenue'].pct_change()
 
     kpis['total_revenue'] = total_revenue
+    kpis['total_volume'] = total_volume
     kpis['avg_price'] = round(avg_price, 2)
     kpis['monthly_trend'] = monthly.to_dict(orient='records')
 
