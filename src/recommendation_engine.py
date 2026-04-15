@@ -1,3 +1,5 @@
+from src.utils.openai_client import get_openai_client
+
 def generate_recommendation(insight):
     prompt = f"""
     Based on the following business insight:
@@ -9,8 +11,6 @@ def generate_recommendation(insight):
     - revenue growth
     - regional optimization
     """
-
-    from src.utils.openai_client import get_openai_client
 
     client = get_openai_client()
 
