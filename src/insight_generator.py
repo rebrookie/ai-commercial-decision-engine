@@ -1,6 +1,7 @@
 import pandas as pd
 from src.utils.openai_client import get_openai_client
 from openai import OpenAI
+import streamlit as st
 
 def generate_insight(df):
     client = get_openai_client()
