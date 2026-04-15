@@ -49,6 +49,13 @@ col2.metric("Volume", f"{kpis.get('volume', 'N/A')}")
 col3.metric("Price", f"{kpis.get('price', 'N/A')}")
 
 
+st.header("📈 Trend Analysis Filters")
+
+regions = df["region"].dropna().unique()
+products = df["product"].dropna().unique()
+
+selected_region = st.selectbox("Select Region", sorted(regions))
+selected_product = st.selectbox("Select Product", sorted(products))
 
 
 # ------------------------
