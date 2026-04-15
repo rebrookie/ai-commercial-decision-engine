@@ -43,12 +43,18 @@ kpis = calculate_kpis(df)
 # ------------------------
 st.header("💬 Ask AI about your data")
 
-user_question = st.text_input("Ask a question about your business data:")
+user_question = st.text_input(
+    "Ask a question about your business data:",
+    value="Potential reasons why Prod C with higher price for customer D than customer A."
+)
 
-if user_question:
-    with st.spinner("Thinking..."):
-        answer = generate_chat_response(user_question, df, kpis)
-        st.write(answer)
+if st.button("Analyze pricing difference (Prod C)"):
+    answer = generate_chat_response(
+        "Why is Product C priced higher for Customer D compared to Customer A?",
+        df,
+        kpis
+    )
+    st.write(answer)
 
 
 
