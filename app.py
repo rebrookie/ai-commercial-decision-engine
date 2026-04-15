@@ -2,12 +2,10 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
-from src.insight_generator import generate_insight
-from src.recommendation_engine import generate_recommendation
 from src.insight_generator import generate_insight, generate_chat_response
+from src.recommendation_engine import generate_recommendation
 
 # ------------------------
 # Page Config
@@ -16,166 +14,159 @@ st.set_page_config(page_title="AI Commercial Decision Engine", layout="wide")
 
 st.title("🚀 AI Commercial Decision Engine")
 st.markdown(
-        "Transforming commercial analytics from **reporting → decision intelligence**"
+    "Transforming commercial analytics from **reporting → decision intelligence**"
 )
-
 
 # ------------------------
 # Load Data
 # ------------------------
 df = load_data("data/sales_data.csv")
 
-
-# ------------------------
-# Optional: Raw Data (collapsed)
-# ------------------------
-with st.expander("🔍 View Raw Data"):
-    st.dataframe(df)
-
 # ------------------------
 # KPI Calculation
 # ------------------------
 kpis = calculate_kpis(df)
 
+# ------------------------
+# Raw Data
+# ------------------------
+with st.expander("🔍 View Raw Data"):
+    st.dataframe(df)
 
 # ------------------------
-# 轻量版 RAG（Data-aware Chat）
+# Tabs
 # ------------------------
-st.header("💬 Ask AI about your data")
+tab1, tab2, tab3 = st.tabs([
+    "📊 Business Overview",
+    "💬 Ask AI about your data",
+    "🧠 Persona Based AI Analysis"
+])
 
-user_question = st.text_input(
-    "Ask a question about your business data:",
-    value="Potential reasons why Prod C with higher price for customer D than customer A."
-)
+# =========================================================
+# TAB 1 — Business Overview
+# =========================================================
+with tab1:
 
-if st.button("Analyze pricing difference (Prod C)"):
-    answer = generate_chat_response(
-        "Why is Product C priced higher for Customer D compared to Customer A?",
-        df,
-        kpis
-    )
-    st.write(answer)
+    st.header("📊 Business Overview")
 
+    col1, col2, col3 = st.columns(3)
 
-
-
-# ------------------------
-# Layout - Business Overview
-# ------------------------
-st.header("📊 Business Overview")
-
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Tot Revenue", f"{kpis.get('total_revenue', 'N/A')}")
-col2.metric("Tot Volume", f"{kpis.get('total_volume', 'N/A')}")
-col3.metric("Avg Price", f"{kpis.get('avg_price', 'N/A')}")
-
-
-# ------------------------
-# Trend Analysis (Monthly Combo Chart)
-# ------------------------
-st.header("📈 Trend Analysis")
-
-try:
-    # ------------------------
-    # Data preparation
-    # ------------------------
-    df["date"] = pd.to_datetime(df["date"])
-
-    df["month_num"] = df["date"].dt.month
-    df["month"] = df["date"].dt.strftime("%b")
-
-    monthly = df.groupby(["month_num", "month"]).agg(
-        revenue=("revenue", "sum"),
-        volume=("volume", "sum"),
-        price=("price", "mean")
-    ).reset_index()
-
-    monthly = monthly.sort_values("month_num")
+    col1.metric("Tot Revenue", f"{kpis.get('total_revenue', 'N/A')}")
+    col2.metric("Tot Volume", f"{kpis.get('total_volume', 'N/A')}")
+    col3.metric("Avg Price", f"{kpis.get('avg_price', 'N/A')}")
 
     # ------------------------
-    # Figure
+    # Trend Analysis
     # ------------------------
-    fig = go.Figure()
+    st.subheader("📈 Trend Analysis")
 
-    # 💰 Revenue (PRIMARY - bar)
-    fig.add_trace(
-        go.Bar(
+    try:
+        df["date"] = pd.to_datetime(df["date"])
+
+        df["month_num"] = df["date"].dt.month
+        df["month"] = df["date"].dt.strftime("%b")
+
+        monthly = df.groupby(["month_num", "month"]).agg(
+            revenue=("revenue", "sum"),
+            volume=("volume", "sum"),
+            price=("price", "mean")
+        ).reset_index()
+
+        monthly = monthly.sort_values("month_num")
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Bar(
             x=monthly["month"],
             y=monthly["revenue"],
             name="Revenue"
-        )
-    )
+        ))
 
-    # 📦 Volume (SECONDARY - line)
-    fig.add_trace(
-        go.Scatter(
+        fig.add_trace(go.Scatter(
             x=monthly["month"],
             y=monthly["volume"],
             mode="lines+markers",
             name="Volume",
             yaxis="y2"
-        )
-    )
+        ))
 
-    # 💲 Price (SECONDARY - line)
-    fig.add_trace(
-        go.Scatter(
+        fig.add_trace(go.Scatter(
             x=monthly["month"],
             y=monthly["price"],
             mode="lines+markers",
             name="Avg Price",
             yaxis="y2"
+        ))
+
+        fig.update_layout(
+            title="Monthly Revenue with Key Drivers",
+            xaxis_title="Month",
+            yaxis_title="Revenue",
+            yaxis2=dict(
+                title="Volume / Price",
+                overlaying="y",
+                side="right"
+            ),
+            legend=dict(x=0, y=1.15, orientation="h"),
+            template="plotly_white"
         )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+    except Exception as e:
+        st.warning(f"Trend analysis failed: {e}")
+
+# =========================================================
+# TAB 2 — Ask AI
+# =========================================================
+with tab2:
+
+    st.header("💬 Ask AI about your data")
+
+    user_question = st.text_input(
+        "Ask a question:",
+        value="Why is Product C priced higher for Customer D compared to Customer A?"
     )
 
-    # ------------------------
-    # Layout (BI-style)
-    # ------------------------
-    fig.update_layout(
-        title="Monthly Revenue with Key Drivers (Volume & Price)",
-        xaxis_title="Month",
-        yaxis_title="Revenue",
-        yaxis2=dict(
-            title="Volume / Price",
-            overlaying="y",
-            side="right"
-        ),
-        barmode="group",
-        legend=dict(x=0, y=1.15, orientation="h"),
-        template="plotly_white"
+    if st.button("Ask AI"):
+        with st.spinner("Analyzing..."):
+            answer = generate_chat_response(user_question, df, kpis)
+            st.write(answer)
+
+    # Quick action (nice UX)
+    if st.button("Analyze pricing difference (Prod C)"):
+        answer = generate_chat_response(
+            "Why is Product C priced higher for Customer D compared to Customer A?",
+            df,
+            kpis
+        )
+        st.write(answer)
+
+# =========================================================
+# TAB 3 — Persona AI Analysis
+# =========================================================
+with tab3:
+
+    st.header("🧠 Persona-Based AI Analysis")
+
+    persona = st.selectbox(
+        "Choose a perspective:",
+        ["Commercial Manager", "Sales Leader", "Pricing Strategist"]
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    if st.button("Run AI Analysis"):
 
-except Exception as e:
-    st.warning(f"Trend analysis failed: {e}")
+        with st.spinner("Generating insights..."):
 
+            try:
+                insight = generate_insight(df)
+                recommendation = generate_recommendation(insight)
 
-# ------------------------
-# Run AI Analysis Button
-# ------------------------
-st.header("🧠 AI Analysis")
+                st.subheader(f"🧠 Insight ({persona})")
+                st.write(insight)
 
-if st.button("Run AI Analysis"):
+                st.subheader("💡 Recommendation")
+                st.write(recommendation)
 
-    with st.spinner("Generating insights..."):
-
-        try:
-            insight = generate_insight(df)
-            recommendation = generate_recommendation(insight)
-
-            # Insight
-            st.subheader("🧠 Insight")
-            st.write(insight)
-
-            # Recommendation
-            st.subheader("💡 Recommendation")
-            st.write(recommendation)
-
-        except Exception as e:
-            st.error(f"Error generating AI output: {e}")
-
-
-
-
+            except Exception as e:
+                st.error(f"Error generating AI output: {e}")
