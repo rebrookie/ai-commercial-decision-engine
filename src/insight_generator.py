@@ -1,5 +1,6 @@
 import pandas as pd
 from src.utils.openai_client import get_openai_client
+from openai import OpenAI
 
 def generate_insight(df):
     client = get_openai_client()
@@ -31,6 +32,8 @@ Be concise and business-focused.
     return response.choices[0].message.content
 
 def generate_chat_response(question, df, kpis):
+
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
     sample_data = df.head(20).to_dict()
 
