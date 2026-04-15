@@ -131,7 +131,7 @@ with tab1:
 # =========================================================
 with tab2:
     
-    MAX_USAGE = 5
+    MAX_USAGE = 10
     COOLDOWN_SECONDS = 10
 
     st.header("💬 Ask AI about your data")
