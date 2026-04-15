@@ -10,9 +10,9 @@ def generate_recommendation(insight):
     - regional optimization
     """
 
-    from openai import OpenAI
+    from src.utils.openai_client import get_openai_client
 
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = get_openai_client()
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",

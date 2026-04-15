@@ -1,7 +1,7 @@
 import os
-from openai import OpenAI
+from src.utils.openai_client import get_openai_client
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = get_openai_client()
 
 
 def generate_insight(kpis):
