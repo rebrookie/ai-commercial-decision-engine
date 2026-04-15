@@ -131,7 +131,7 @@ with tab1:
 # =========================================================
 with tab2:
     
-    MAX_USAGE = 10
+    MAX_USAGE = 5
     COOLDOWN_SECONDS = 10
 
     st.header("💬 Ask AI about your data")
@@ -164,7 +164,7 @@ with tab2:
         # -------------------------
         with st.spinner("Analyzing..."):
             answer = generate_chat_response(user_question, df, kpis)
-            st.write(answer)
+            st.markdown(answer)
 
             # update usage
             st.session_state.usage_count += 1
@@ -191,10 +191,10 @@ with tab3:
                 recommendation = generate_recommendation(insight)
 
                 st.subheader(f"🧠 Insight ({persona})")
-                st.write(insight)
+                st.markdown(insight)
 
                 st.subheader("💡 Recommendation")
-                st.write(recommendation)
+                st.markdown(recommendation)
 
             except Exception as e:
                 st.error(f"Error generating AI output: {e}")
