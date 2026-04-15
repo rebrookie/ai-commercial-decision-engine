@@ -44,18 +44,9 @@ st.header("📊 Business Overview")
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("Revenue", f"{kpis.get('revenue', 'N/A')}")
-col2.metric("Volume", f"{kpis.get('volume', 'N/A')}")
-col3.metric("Price", f"{kpis.get('price', 'N/A')}")
-
-
-st.header("📈 Trend Analysis Filters")
-
-regions = df["region"].dropna().unique()
-products = df["product"].dropna().unique()
-
-selected_region = st.selectbox("Select Region", sorted(regions))
-selected_product = st.selectbox("Select Product", sorted(products))
+col1.metric("Revenue", f"{kpis.get('total_revenue', 'N/A')}")
+col2.metric("Volume", f"{kpis.get('total_volume', 'N/A')}")
+col3.metric("Price", f"{kpis.get('avg_price', 'N/A')}")
 
 
 # ------------------------
