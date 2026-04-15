@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
@@ -36,7 +37,6 @@ kpis = calculate_kpis(df)
 
 
 
-"""
 # ------------------------
 # Layout - Business Overview
 # ------------------------
@@ -50,19 +50,70 @@ col3.metric("Price", f"{kpis.get('price', 'N/A')}")
 
 
 
+
 # ------------------------
-# Trend Analysis
+# Trend Analysis (Monthly Combo Chart)
 # ------------------------
 st.header("📈 Trend Analysis")
 
 try:
     df["date"] = pd.to_datetime(df["date"])
-    df_sorted = df.sort_values("date")
-    st.line_chart(df_sorted.set_index("date")["revenue"])
-except Exception:
-    st.warning("No valid 'date' column found for trend analysis.")
 
-"""
+    # 👉 按月聚合（关键）
+    df["month"] = df["date"].dt.to_period("M").astype(str)
+
+    monthly = df.groupby("month").agg(
+        revenue=("revenue", "sum"),
+        volume=("volume", "sum"),
+        price=("price", "mean")
+    ).reset_index()
+
+    fig = go.Figure()
+
+    # 📦 Volume (stacked bar)
+    fig.add_bar(
+        x=monthly["month"],
+        y=monthly["volume"],
+        name="Volume"
+    )
+
+    # 💰 Revenue (bar)
+    fig.add_bar(
+        x=monthly["month"],
+        y=monthly["revenue"],
+        name="Revenue"
+    )
+
+    # 💲 Price (line)
+    fig.add_trace(
+        go.Scatter(
+            x=monthly["month"],
+            y=monthly["price"],
+            mode="lines+markers",
+            name="Avg Price",
+            yaxis="y2"
+        )
+    )
+
+    # 🎯 Layout (dual axis + titles)
+    fig.update_layout(
+        title="Monthly Revenue, Volume & Price Trend",
+        xaxis_title="Month",
+        yaxis_title="Revenue / Volume",
+        yaxis2=dict(
+            title="Avg Price",
+            overlaying="y",
+            side="right"
+        ),
+        barmode="stack",
+        legend=dict(x=0, y=1.1, orientation="h")
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+except Exception as e:
+    st.warning(f"Trend analysis failed: {e}")
+
 
 # ------------------------
 # Run AI Analysis Button
