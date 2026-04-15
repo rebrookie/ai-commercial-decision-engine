@@ -36,10 +36,11 @@ with st.expander("🔍 View Raw Data"):
 # ------------------------
 # Tabs
 # ------------------------
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Business Overview",
     "💬 Ask AI about your data",
-    "🧠 Persona Based AI Analysis"
+    "🧠 Persona Based AI Analysis",
+    "👤 About / Contact"
 ])
 
 # =========================================================
@@ -151,7 +152,7 @@ with tab3:
 
     persona = st.selectbox(
         "Choose a perspective:",
-        ["Commercial Manager", "Sales Leader", "Pricing Strategist"]
+        ["Commercial Manager", "Head of Sales", "Pricing Strategist", "Key Account Manager"]
     )
 
     if st.button("Run AI Analysis"):
@@ -170,3 +171,39 @@ with tab3:
 
             except Exception as e:
                 st.error(f"Error generating AI output: {e}")
+
+
+# =========================================================
+# TAB 4 — Contact
+# =========================================================
+with tab4:
+
+    st.header("👤 About Me")
+
+    st.markdown("""
+Hi, I’m **Lin Liu**, a Commercial Analytics & AI Strategy professional with 15+ years of experience across R&D, Project Management, and Data-driven Commercial Strategy.
+
+I specialize in:
+- Turning data into business decisions  
+- Bridging strategy and analytics  
+- Building AI-powered decision tools  
+
+---
+
+### 🚀 About This Project
+
+This tool demonstrates how AI can transform commercial analytics from:
+> Reporting → Decision Intelligence
+
+---
+
+### 📬 Contact
+
+- 💼 LinkedIn: https://www.linkedin.com/in/linl1/  
+- 📧 Email: lin7.liu@gmail.com  
+
+Feel free to reach out for:
+- Opportunities  
+- Collaboration  
+- AI & Commercial Strategy discussions  
+""")
