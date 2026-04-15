@@ -192,8 +192,8 @@ I specialize in:
 
 ### 🚀 About This Project
 
-This tool demonstrates how AI can transform commercial analytics from:
-> Reporting → Decision Intelligence
+I built this AI-powered commercial decision engine that allows business users to query data in natural language and receive strategy-level insights.
+It well demostrates how we convert and eable from data Reporting → Decision Intelligence
 
 ---
 
@@ -203,7 +203,6 @@ This tool demonstrates how AI can transform commercial analytics from:
 - 📧 Email: lin7.liu@gmail.com  
 
 Feel free to reach out for:
-- Opportunities  
-- Collaboration  
+- Feedback, opportunities, collabration etc.
 - AI & Commercial Strategy discussions  
 """)
