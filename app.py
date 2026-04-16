@@ -41,7 +41,7 @@ INTENTS = {
     "portfolio_strategy": "Product focus",
     "customer_strategy": "Customer engagement",
     "executive_summary": "Leadership summary",
-    "product_launch": "New product pricing"
+    "new_product_priceing_strategy": "New product pricing"
 }
 
 # ------------------------
@@ -58,8 +58,8 @@ def detect_intent(question: str):
         return "customer_strategy"
     elif "summary" in q or "leadership" in q:
         return "executive_summary"
-    elif "new product" in q or "launch" in q:
-        return "product_launch"
+    elif "new product" in q or "new pricing strategy" in q:
+        return "new_product_pricing_strategy"
     else:
         return "general"
 
@@ -183,7 +183,7 @@ with tab2:
         {"intent": "portfolio_strategy", "text": "Product focus in Europe"},
         {"intent": "customer_strategy", "text": "Prepare negotiation"},
         {"intent": "executive_summary", "text": "C-level summary"},
-        {"intent": "product_launch", "text": "New product pricing"}
+        {"intent": "new_product_pricing_strategy", "text": "New product pricing"}
     ]
 
     cols = st.columns(2)
