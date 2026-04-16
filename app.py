@@ -188,14 +188,6 @@ with tab2:
 
     cols = st.columns(2)
 
-    for i, item in enumerate(sample_questions):
-        with cols[i % 2]:
-            st.button(
-                item["text"],
-                key=f"q_{i}",
-                use_container_width=True  # 👉 更整齐
-            )
-
     sample_questions = [
         {"intent": "pricing_erosion", "text": "Highlight products with significant price erosion issues."},
         {"intent": "portfolio_strategy", "text": "What product should we focus on for European customers?"},
@@ -204,10 +196,13 @@ with tab2:
         {"intent": "product_launch", "text": "How to position pricing for new product Prod F?"}
     ]
 
-    for item in sample_questions:
-        if st.button(item["text"]):
-            st.session_state.user_question = item["text"]
-            st.session_state.intent = item["intent"]
+    for i, item in enumerate(sample_questions):
+        with cols[i % 2]:
+            st.button(
+                item["text"],
+                key=f"q_{i}",
+                use_container_width=True  # 👉 更整齐
+            )
 
     if st.button("Ask AI"):
 
