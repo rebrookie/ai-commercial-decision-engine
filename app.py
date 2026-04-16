@@ -16,6 +16,19 @@ if "usage_count" not in st.session_state:
 if "last_call_time" not in st.session_state:
     st.session_state.last_call_time = 0
 
+# ------------------------
+# Intent Definitions
+# ------------------------
+INTENTS = {
+    "price_positioning": "analyze new product price positioning success",
+    "price_erosion": "Analyze pricing issues and erosion drivers",
+    "portfolio_strategy": "Recommend product focus and growth areas",
+    "customer_strategy": "Prepare for customer engagement or negotiation",
+    "executive_summary": "Summarize business performance for leadership",
+    "product_launch": "Support new product pricing and positioning"
+}
+
+
 
 # ------------------------
 # Page Config
@@ -129,17 +142,62 @@ with tab1:
 # =========================================================
 # TAB 2 — Ask AI
 # =========================================================
+
+def detect_intent(question: str):
+    q = question.lower()
+
+    if "erosion" in q or "price" in q:
+        return "pricing_erosion"
+    elif "focus" in q or "which product" in q:
+        return "portfolio_strategy"
+    elif "customer" in q or "negotiation" in q:
+        return "customer_strategy"
+    elif "summary" in q or "leadership" in q:
+        return "executive_summary"
+    elif "new product" in q or "launch" in q:
+        return "product_launch"
+    else:
+        return "general"
+
 with tab2:
     
     MAX_USAGE = 5
     COOLDOWN_SECONDS = 10
 
+    sample_questions = [
+    "Highlight products with significant price erosion issues.",
+    "Which products should we focus on for European customers in the near term?",
+    "I have a re-negotiation with Customer E to sell Prod D — give me insights to prepare.",
+    "Summarize key risks and opportunities for a leadership (C-level) business review.",
+    "How should I position pricing for new product Prod F for Customer A?"
+]
+    
+    
+    
     st.header("💬 Ask AI about your data")
 
+    default_question = "Ask about pricing, growth, or customer strategy..."
+
     user_question = st.text_input(
-        "Ask questions about pricing, revenue, or customer behavior, default persona=commercial analyst:",
-        value="e.g Why is revenue of Prod C for Customer D far less than price x volume?"
+        "Ask a question:",
+        value=st.session_state.get("user_question", default_question)
     )
+
+
+    st.markdown("### 💡 Try one of these questions:")
+
+    sample_questions = [
+        {"intent": "pricing_erosion", "text": "Highlight products with significant price erosion issues."},
+        {"intent": "portfolio_strategy", "text": "What product should we focus on for European customers?"},
+        {"intent": "customer_strategy", "text": "Prepare for negotiation with Customer E for Prod D."},
+        {"intent": "executive_summary", "text": "Summarize risks and opportunities for leadership."},
+        {"intent": "product_launch", "text": "How to position pricing for new product Prod F?"}
+    ]
+
+    for item in sample_questions:
+        if st.button(item["text"]):
+            st.session_state.user_question = item["text"]
+            st.session_state.intent = item["intent"]
 
     if st.button("Ask AI"):
 
@@ -163,7 +221,8 @@ with tab2:
         # Call AI
         # -------------------------
         with st.spinner("Analyzing..."):
-            answer = generate_chat_response(user_question, df, kpis)
+            intent = st.session_state.get("intent") or detect_intent(user_question)
+            answer = generate_chat_response(user_question, df, kpis, intent)
             st.markdown(answer)
 
             # update usage

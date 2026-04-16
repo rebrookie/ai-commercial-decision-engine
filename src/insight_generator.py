@@ -32,22 +32,63 @@ def generate_insight(df):
 
     return response.choices[0].message.content
 
-def generate_chat_response(question, df, kpis):
+from openai import OpenAI
+import os
 
-    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+def generate_chat_response(question, df, kpis, intent):
 
-    sample_data = df.head(20).to_dict()
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+    sample_data = df.head(20).to_dict(orient="records")
+
+    # -------------------------
+    # Intent-based system prompt
+    # -------------------------
+    if intent == "pricing_erosion":
+        system_prompt = """
+        You are a pricing strategy expert.
+        Analyze price erosion, identify drivers, and recommend actions.
+
+        Output format:
+        - Key Issue
+        - Root Cause
+        - Recommendation
+        """
+
+    elif intent == "executive_summary":
+        system_prompt = """
+        You are advising a C-level executive.
+
+        Provide:
+        - Performance summary
+        - Risks
+        - Opportunities
+        - Actions
+        """
+
+    elif intent == "customer_strategy":
+        system_prompt = """
+        You are a key account strategist.
+        Provide negotiation insights and recommended approach.
+        """
+
+    else:
+        system_prompt = """
+        You are a senior commercial analyst with deep telecom experience.
+        Provide structured and actionable business insights.
+        """
+
+    # -------------------------
+    # Build user prompt (FIXED)
+    # -------------------------
     prompt = f"""
-    You are a senor commercial analyst with over 30 years' experience of telecom industry.
-
     Business KPIs:
     {kpis}
 
-    Sample data:
+    Sample Data:
     {sample_data}
 
-    User question:
+    User Question:
     {question}
 
     Please provide:
@@ -55,9 +96,15 @@ def generate_chat_response(question, df, kpis):
     - Business insight
     """
 
+    # -------------------------
+    # Call OpenAI
+    # -------------------------
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
+        ]
     )
 
     return response.choices[0].message.content
