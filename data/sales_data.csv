@@ -2,8 +2,8 @@ date,sale_stage,customer,region,category,payment_term,product,revenue,volume,pri
 2026-01,closed_won,Customer A,Europe,5G RAN HW,up-front,Prod A,100000,500,200,800,215,secure the price erosion of Prod A <-5%
 2026-01,closed_won,Customer B,Europe,5G RAN HW,up-front,Prod B,80000,400,200,600,215,swap incentive limited to <10%
 2026-01,closed_won,Customer C, Asia,5G RAN HW,up-front,Prod B,90000,600,150,1800,180,penetration rate 35% to 50% for further network modernization
-2026-02,closed_won,Customer A,Europe,5G RAN SW,term-based license,Prod C,120000,550,218,80000,218,increase penetration rate while cap network growth without revenue
-2026-02,closed_won,Customer B,Europe,5G RAN SW,term-based license,Prod C,70000,350,200,65000,215,detach SW revenue from HW scaling
-2026-02,closed_won,Customer C,Asia,5G RAN HW,up-front,Prod A,95000,620,153,20000,250,grow market footprint
-2026-03,ongoing,Customer C,Asia,5G RAN SW,annual recurring,Prod D,35000,420,150,50000,120,stop incentive from new deal and secure the new SW package value positioning
-2026-03,ongoing,Customer D,Asia,5G RAN SW,annual recurring,Prod C,55000,660,350,35000,400,market area general strategy for new medium tier customer
+2026-02,closed_won,Customer A,Europe,5G RAN SW,term-based license,Prod C,120000,550,218,800,218,increase penetration rate while cap network growth without revenue
+2026-02,closed_won,Customer B,Europe,5G RAN SW,term-based license,Prod C,70000,350,200,1500,215,detach SW revenue from HW scaling
+2026-02,closed_won,Customer C,Asia,5G RAN HW,up-front,Prod A,95000,620,153,300,250,grow market footprint
+2026-03,ongoing,Customer C,Asia,5G RAN SW,annual recurring,Prod D,35000,420,150,500,120,stop incentive from new deal and secure the new SW package value positioning
+2026-03,ongoing,Customer D,Asia,5G RAN SW,annual recurring,Prod C,55000,660,350,2500,400,market area general strategy for new medium tier customer
