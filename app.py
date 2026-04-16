@@ -186,6 +186,16 @@ with tab2:
 
     st.markdown("### 💡 Try one of these questions:")
 
+    cols = st.columns(2)  # 👉 一行2个（可以改3更紧凑）
+
+    for i, item in enumerate(sample_questions):
+        col = cols[i % 2]
+
+        with col:
+            if st.button(item["text"], key=f"q_{i}"):
+                st.session_state.user_question = item["text"]
+                st.session_state.intent = item["intent"]
+
     sample_questions = [
         {"intent": "pricing_erosion", "text": "Highlight products with significant price erosion issues."},
         {"intent": "portfolio_strategy", "text": "What product should we focus on for European customers?"},
