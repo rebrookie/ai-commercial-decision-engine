@@ -176,10 +176,10 @@ with tab2:
     
     st.header("💬 Ask AI about your data")
 
-    default_question = "Ask about pricing, growth, or customer strategy..."
+    default_question = "Why the revenue of Prod C for customer D is far less than price x volume?"
 
     user_question = st.text_input(
-        "Ask a question:",
+        "Ask about pricing, growth, or customer strategy...default persona is Commercial Analyst",
         value=st.session_state.get("user_question", default_question)
     )
 
