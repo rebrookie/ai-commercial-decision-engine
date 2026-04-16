@@ -189,9 +189,9 @@ with tab2:
     cols = st.columns(2)  # 👉 一行2个（可以改3更紧凑）
 
     for i, item in enumerate(sample_questions):
-        col = cols[i % 2]
+        cols = st.columns(3)
 
-        with col:
+        with cols:
             if st.button(item["text"], key=f"q_{i}"):
                 st.session_state.user_question = item["text"]
                 st.session_state.intent = item["intent"]
