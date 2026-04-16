@@ -11,18 +11,18 @@ def generate_insight(df):
 
     # ✅ Step 2: prompt
     prompt = f"""
-You are a senior commercial strategy consultant of Telecom industry to provide insights only from telecom equipment providers' perspectives.
+    You are a senior commercial strategy consultant of Telecom industry to provide insights only from telecom equipment providers' perspectives.
 
-Given the following business data summary:
-{data_summary}
+    Given the following business data summary:
+    {data_summary}
 
-Provide:
-1. Key business insight (what is happening)
-2. Root cause (why it is happening)
-3. Risk or opportunity
+    Provide:
+    1. Key business insight (what is happening)
+    2. Root cause (why it is happening)
+    3. Risk or opportunity
 
-Be concise and business-focused.
-"""
+    Be concise and business-focused.
+    """
 
     # ✅ Step 3: 调用模型
     response = client.chat.completions.create(
@@ -39,7 +39,7 @@ def generate_chat_response(question, df, kpis):
     sample_data = df.head(20).to_dict()
 
     prompt = f"""
-    You are a commercial strategy analyst.
+    You are a senor commercial analyst with over 30 years' experience of telecom industry.
 
     Business KPIs:
     {kpis}
@@ -53,7 +53,6 @@ def generate_chat_response(question, df, kpis):
     Please provide:
     - Clear answer
     - Business insight
-    - Actionable recommendation
     """
 
     response = client.chat.completions.create(

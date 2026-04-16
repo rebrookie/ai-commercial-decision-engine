@@ -2,14 +2,14 @@ from src.utils.openai_client import get_openai_client
 
 def generate_recommendation(insight):
     prompt = f"""
-    You are a commercial strategy advisor.
+    You are a senor commercial strategy advisor of 30 years' experience of telecom industry.
 
     Based on this insight:
     {insight}
 
     Provide:
     - 3 actionable recommendations
-    - Focus on revenue growth, pricing, or customer strategy
+    - Focus on revenue growth, pricing, pricing strategy, or customer strategy
     - Be specific and practical
     """
 
