@@ -1,43 +1,74 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import time
+import os
 
 from src.data_loader import load_data
 from src.kpi_calculator import calculate_kpis
 from src.insight_generator import generate_insight, generate_chat_response
 from src.recommendation_engine import generate_recommendation
 
+# ------------------------
+# Page Config (ONLY ONCE)
+# ------------------------
+st.set_page_config(
+    page_title="AI Commercial Decision Engine",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
+# ------------------------
+# Session State Init
+# ------------------------
 if "usage_count" not in st.session_state:
     st.session_state.usage_count = 0
 
 if "last_call_time" not in st.session_state:
     st.session_state.last_call_time = 0
 
+if "intent" not in st.session_state:
+    st.session_state.intent = None
+
+if "user_question" not in st.session_state:
+    st.session_state.user_question = ""
+
 # ------------------------
 # Intent Definitions
 # ------------------------
 INTENTS = {
-    "price_positioning": "analyze new product price positioning success",
-    "price_erosion": "Analyze pricing issues and erosion drivers",
-    "portfolio_strategy": "Recommend product focus and growth areas",
-    "customer_strategy": "Prepare for customer engagement or negotiation",
-    "executive_summary": "Summarize business performance for leadership",
-    "product_launch": "Support new product pricing and positioning"
+    "price_erosion": "Analyze pricing erosion",
+    "portfolio_strategy": "Product focus",
+    "customer_strategy": "Customer engagement",
+    "executive_summary": "Leadership summary",
+    "product_launch": "New product pricing"
 }
 
+# ------------------------
+# Intent Detection
+# ------------------------
+def detect_intent(question: str):
+    q = question.lower()
 
+    if "erosion" in q:
+        return "price_erosion"
+    elif "focus" in q or "which product" in q:
+        return "portfolio_strategy"
+    elif "customer" in q or "negotiation" in q:
+        return "customer_strategy"
+    elif "summary" in q or "leadership" in q:
+        return "executive_summary"
+    elif "new product" in q or "launch" in q:
+        return "product_launch"
+    else:
+        return "general"
 
 # ------------------------
-# Page Config
+# Title
 # ------------------------
-st.set_page_config(page_title="AI Commercial Decision Engine", layout="wide")
-
 st.title("🚀 AI Commercial Decision Engine")
 st.markdown("Transforming commercial analytics from **reporting → decision intelligence**")
-st.info("⚠️ This is a demo version of an AI-powered commercial decision system.")
+st.info("⚠️ Demo version with limited AI usage")
 
 # ------------------------
 # Load Data
@@ -60,9 +91,8 @@ with st.expander("🔍 View Raw Data"):
 # ------------------------
 tab1, tab2, tab3 = st.tabs([
     "📊 Business Overview",
-    "💬 Ask AI about your data",
-    "🧠 Persona Based AI Analysis"
-    
+    "💬 Ask AI",
+    "🧠 Persona Analysis"
 ])
 
 # =========================================================
@@ -74,18 +104,14 @@ with tab1:
 
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("Tot Revenue", f"{kpis.get('total_revenue', 'N/A')}")
-    col2.metric("Tot Volume", f"{kpis.get('total_volume', 'N/A')}")
+    col1.metric("Total Revenue", f"{kpis.get('total_revenue', 'N/A')}")
+    col2.metric("Total Volume", f"{kpis.get('total_volume', 'N/A')}")
     col3.metric("Avg Price", f"{kpis.get('avg_price', 'N/A')}")
 
-    # ------------------------
-    # Trend Analysis
-    # ------------------------
     st.subheader("📈 Trend Analysis")
 
     try:
         df["date"] = pd.to_datetime(df["date"])
-
         df["month_num"] = df["date"].dt.month
         df["month"] = df["date"].dt.strftime("%b")
 
@@ -93,9 +119,7 @@ with tab1:
             revenue=("revenue", "sum"),
             volume=("volume", "sum"),
             price=("price", "mean")
-        ).reset_index()
-
-        monthly = monthly.sort_values("month_num")
+        ).reset_index().sort_values("month_num")
 
         fig = go.Figure()
 
@@ -130,7 +154,7 @@ with tab1:
                 overlaying="y",
                 side="right"
             ),
-            legend=dict(x=0, y=1.15, orientation="h"),
+            legend=dict(x=0, y=1.1, orientation="h"),
             template="plotly_white"
         )
 
@@ -142,95 +166,68 @@ with tab1:
 # =========================================================
 # TAB 2 — Ask AI
 # =========================================================
-
-def detect_intent(question: str):
-    q = question.lower()
-
-    if "erosion" in q or "price" in q:
-        return "pricing_erosion"
-    elif "focus" in q or "which product" in q:
-        return "portfolio_strategy"
-    elif "customer" in q or "negotiation" in q:
-        return "customer_strategy"
-    elif "summary" in q or "leadership" in q:
-        return "executive_summary"
-    elif "new product" in q or "launch" in q:
-        return "product_launch"
-    else:
-        return "general"
-
 with tab2:
-    
+
+    st.header("💬 Ask AI about your data")
+
     MAX_USAGE = 5
     COOLDOWN_SECONDS = 10
 
-    sample_questions = [
-    "Highlight products with significant price erosion issues.",
-    "Which products should we focus on for European customers in the near term?",
-    "I have a re-negotiation with Customer E to sell Prod D — give me insights to prepare.",
-    "Summarize key risks and opportunities for a leadership (C-level) business review.",
-    "How should I position pricing for new product Prod F for Customer A?"
-]
-    
-    
-    
-    st.header("💬 Ask AI about your data")
-
-    default_question = "Why the revenue of Prod C for customer D is far less than price x volume?"
-
-    user_question = st.text_input(
-        "Ask about pricing, growth, or customer strategy...default persona is Commercial Analyst",
-        value=st.session_state.get("user_question", default_question)
-    )
-
-
+    # ------------------------
+    # Sample Questions
+    # ------------------------
     st.markdown("### 💡 Try one of these questions:")
+
+    sample_questions = [
+        {"intent": "price_erosion", "text": "Price erosion analysis"},
+        {"intent": "portfolio_strategy", "text": "Product focus in Europe"},
+        {"intent": "customer_strategy", "text": "Prepare negotiation"},
+        {"intent": "executive_summary", "text": "C-level summary"},
+        {"intent": "product_launch", "text": "New product pricing"}
+    ]
 
     cols = st.columns(2)
 
-    sample_questions = [
-        {"intent": "pricing_erosion", "text": "Highlight products with significant price erosion issues."},
-        {"intent": "portfolio_strategy", "text": "What product should we focus on for European customers?"},
-        {"intent": "customer_strategy", "text": "Prepare for negotiation with Customer E for Prod D."},
-        {"intent": "executive_summary", "text": "Summarize risks and opportunities for leadership."},
-        {"intent": "product_launch", "text": "How to position pricing for new product Prod F?"}
-    ]
-
     for i, item in enumerate(sample_questions):
         with cols[i % 2]:
-            st.button(
-                item["text"],
-                key=f"q_{i}",
-                use_container_width=True  # 👉 更整齐
-            )
+            if st.button(item["text"], key=f"q_{i}", use_container_width=True):
+                st.session_state.user_question = item["text"]
+                st.session_state.intent = item["intent"]
 
+    # ------------------------
+    # Input Box
+    # ------------------------
+    user_question = st.text_input(
+        "Ask your question:",
+        value=st.session_state.get("user_question", "")
+    )
+
+    # ------------------------
+    # AI Call
+    # ------------------------
     if st.button("Ask AI"):
 
         now = time.time()
 
-        # -------------------------
-        # Cooldown control (anti spam)
-        # -------------------------
         if now - st.session_state.last_call_time < COOLDOWN_SECONDS:
-            st.warning("Please wait a few seconds before next query.")
+            st.warning("Please wait before next query.")
             st.stop()
 
-        # -------------------------
-        # Usage limit control
-        # -------------------------
         if st.session_state.usage_count >= MAX_USAGE:
-            st.error("Demo limit reached. Please contact me for full access.")
+            st.error("Demo limit reached.")
             st.stop()
 
-        # -------------------------
-        # Call AI
-        # -------------------------
         with st.spinner("Analyzing..."):
+
             intent = st.session_state.get("intent") or detect_intent(user_question)
+
+            st.caption(f"🧠 Detected intent: {intent}")
+
             answer = generate_chat_response(user_question, df, kpis, intent)
+
+            st.markdown("### 📊 Answer")
             st.markdown(answer)
 
-            # update usage
             st.session_state.usage_count += 1
             st.session_state.last_call_time = now
 
@@ -242,7 +239,7 @@ with tab3:
     st.header("🧠 Persona-Based AI Analysis")
 
     persona = st.selectbox(
-        "Choose a perspective:",
+        "Choose perspective:",
         ["Commercial Manager", "Head of Sales", "Pricing Strategist", "Key Account Manager"]
     )
 
@@ -257,13 +254,15 @@ with tab3:
                 st.subheader(f"🧠 Insight ({persona})")
                 st.markdown(insight)
 
+                st.divider()
+
                 st.subheader("💡 Recommendation")
                 st.markdown(recommendation)
 
             except Exception as e:
-                st.error(f"Error generating AI output: {e}")
+                st.error(f"Error: {e}")
 
-
+        
 # =========================================================
 # Sidebar — Contact
 # =========================================================
