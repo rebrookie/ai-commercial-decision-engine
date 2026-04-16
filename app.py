@@ -137,8 +137,8 @@ with tab2:
     st.header("💬 Ask AI about your data")
 
     user_question = st.text_input(
-        "Ask questions about pricing, revenue, or customer behavior:",
-        value="Why is revenue of Prod C for Customer D far less than price x volume?"
+        "Ask questions about pricing, revenue, or customer behavior, persona=commerical analyst:",
+        value="e.g Why is revenue of Prod C for Customer D far less than price x volume?"
     )
 
     if st.button("Ask AI"):
