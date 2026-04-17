@@ -228,7 +228,7 @@ with tab2:
     # ------------------------
     # AI Call
     # ------------------------
-    if st.button("Ask AI"):
+    if st.button("💻 Ask AI"):
 
         now = time.time()
 
@@ -267,7 +267,7 @@ with tab2:
             st.session_state.usage_count += 1
             st.session_state.last_call_time = now
 
-    if st.button("🗑 Clear Chat"):
+    elif st.button("🗑️ Clear Chat"):
         st.session_state.chat_history = []
 
     st.subheader("💬 Conversation")
