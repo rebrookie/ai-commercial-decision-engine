@@ -117,12 +117,7 @@ def detect_intent(question: str):
     else:
         return "general"
 
-# ------------------------
-# Title
-# ------------------------
-st.title("🚀 AI Commercial Decision Engine")
-st.markdown("Transforming commercial analytics from **reporting → decision intelligence**")
-st.info("⚠️ Demo version with limited AI usage")
+
 
 # ------------------------
 # Load Data
