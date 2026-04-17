@@ -177,15 +177,15 @@ with tab2:
     # Sample Questions
     # ------------------------
     
-    st.markdown("##### 💡 Sample questions:")
+    st.markdown("##### 💡 Try sample questions:")
     st.markdown("""
                     
             To copy-paste and ask AI
                 
-            - give me a summary of Customers and Products Performance in 2026
-            - for customer C, have we achieved our goal of year 2026
-            - highlight me the product(s) that with big price erosion issue.
-            - what product should be focus in near term for European customers.
+            - Give me a summary of Customers and Products Performance in 2026
+            - For customer C, have we achieved our goal of year 2026
+            - Highlight me the product(s) that with big price erosion issue.
+            - What product should be focus in near term for European customers.
             - I'll have a re-negotiation with customer E soon to sell Prod D to the customer, give me some insight on prepping for the customer engagement meeting.
             - I'll have a business review with my leadership team(c-level), give me a summary on what's happening and risk and opportunities.
             - I have a new product Prod F a next gen product of Prod A to sell to the customer A soon, for a successful price positioning, give me some insights to prep for this.
