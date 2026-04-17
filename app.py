@@ -248,25 +248,6 @@ with tab2:
                     
             """)
         
-        st.markdown("##### 💡 Try quick questions:")
-
-        sample_questions = [
-            {"intent": "price_erosion", "text": "Price erosion analysis"},
-            {"intent": "portfolio_strategy", "text": "Product focus in Europe"},
-            {"intent": "customer_strategy", "text": "Prepare negotiation"},
-            {"intent": "executive_summary", "text": "C-level summary"},
-            {"intent": "new_product_pricing_strategy", "text": "New product pricing"}
-        ]
-
-    
-    
-        cols = st.columns(2)
-
-        for i, item in enumerate(sample_questions):
-            with cols[i % 2]:
-                if st.button(item["text"], key=f"q_{i}", use_container_width=True):
-                    st.session_state.user_question = item["text"]
-                    st.session_state.intent = item["intent"]
 
     # ------------------------
     # Input Box
