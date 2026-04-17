@@ -234,7 +234,7 @@ with tab2:
         st.markdown("##### 💡 Try sample questions:")
         st.markdown("""
                         
-                To copy-paste and ask AI
+                To copy-paste the question into chat field below to ask AI
                     
                 - Give me a summary of Customers and Products Performance in 2026
                 - For customer C, have we achieved our goal of year 2026
