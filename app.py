@@ -177,8 +177,8 @@ with tab2:
     # Sample Questions
     # ------------------------
     
-    st.markdown("# 💡 Sample questions to copy-paste and ask AI:")
-    st.markdown("""                    
+    st.markdown("##### 💡 Sample questions to copy-paste and ask AI:")
+    st.markdown("""            
             - give me a summary of Customers and Products Performance in 2026
             - for customer C, have we achieved our goal of year 2026
             - highlight me the product(s) that with big price erosion issue.
@@ -191,7 +191,7 @@ with tab2:
                 
         """)
     
-    st.markdown("# 💡 Try simple questions:")
+    st.markdown("##### 💡 Try simple questions:")
 
     sample_questions = [
         {"intent": "price_erosion", "text": "Price erosion analysis"},
