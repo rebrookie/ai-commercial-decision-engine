@@ -22,34 +22,24 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-/* Tab 内容区域加卡片效果 */
-.stTabs [data-baseweb="tab-panel"] {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #e6e6e6;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-top: 10px;
+
+/* 主内容区域限制宽度 + 居中 */
+.block-container {
+    max-width: 700px;   /* 👈 控制宽度 */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* Tab 标题更醒目 */
-.stTabs [data-baseweb="tab"] {
-    font-size: 16px;
-    font-weight: 600;
+/* 可选：让header也居中 */
+h1, h2, h3 {
+    text-align: left;
 }
 
-/* 选中 tab 高亮 */
-.stTabs [aria-selected="true"] {
-    color: #1f77b4;
-}
-
-/* 卡片 hover（高级感） */
-div.card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    transition: 0.3s;
-}
 </style>
 """, unsafe_allow_html=True)
+
 
 # ------------------------
 # Session State Init
