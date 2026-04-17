@@ -13,7 +13,7 @@ from src.recommendation_engine import generate_recommendation
 # Page Config (ONLY ONCE)
 # ------------------------
 st.set_page_config(
-    page_title="AI Commercial Decision Engine",
+    page_title="## AI Commercial Decision Engine",
     layout="wide",
     initial_sidebar_state="collapsed"
 
