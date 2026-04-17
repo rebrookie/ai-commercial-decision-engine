@@ -213,7 +213,7 @@ with tab1:
     except Exception as e:
         st.warning(f"Trend analysis failed: {e}")
 
-
+    st.subheader("📝 Summary")
     st.markdown("**Many more charts or analysis could be added to the page for sure, but  put one only here to show the user as a dedicated tab for dashboards and quick business summary.**")
 
     end_card()
