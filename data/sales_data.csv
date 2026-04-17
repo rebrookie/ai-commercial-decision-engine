@@ -6,4 +6,4 @@ date,sale_stage,customer,region,category,payment_term,product,revenue,volume,pri
 2026-02,closed_won,Customer B,Europe,5G RAN SW,term-based license,Prod C,70000,350,200,1500,215,detach SW revenue from HW scaling
 2026-02,closed_won,Customer C,Asia,5G RAN HW,up-front,Prod A,95000,620,153,300,250,grow market footprint
 2026-03,ongoing,Customer C,Asia,5G RAN SW,annual recurring,Prod D,35000,420,150,500,120,stop incentive from new deal and secure the new SW package value positioning
-2026-03,ongoing,Customer D,Asia,5G RAN SW,annual recurring,Prod C,55000,660,350,2500,400,market area general strategy for new medium tier customer
+2026-03,ongoing,Customer D,Asia,5G RAN SW,annual recurring,Prod C,55000,660,350,,,market area general strategy for new medium tier customer
