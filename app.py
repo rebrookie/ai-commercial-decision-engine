@@ -400,7 +400,7 @@ with st.sidebar:
     ### 💡 About This Project
 
     I built this AI-powered commercial decision engine that allows business users to query data in natural language and receive strategy-level insights.
-    It well demostrates how we convert and eable from data Reporting → Decision Intelligence
+    It well demostrates how we transform commercial analytics from Reporting → Decision Intelligence
 
     ---
                 
