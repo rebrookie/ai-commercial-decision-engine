@@ -111,7 +111,7 @@ def detect_intent(question: str):
 # ------------------------
 # Title
 # ------------------------
-st.title("### 🚀 AI Commercial Decision Engine")
+st.subtitle(" 🚀 AI Commercial Decision Engine")
 st.markdown("Transforming commercial analytics from **reporting → decision intelligence**")
 st.info("⚠️ Demo version with limited AI usage")
 
