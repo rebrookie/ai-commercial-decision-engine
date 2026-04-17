@@ -267,13 +267,15 @@ with tab2:
             st.session_state.usage_count += 1
             st.session_state.last_call_time = now
 
+    if st.button("🗑 Clear Chat"):
+        st.session_state.chat_history = []
+
     st.subheader("💬 Conversation")
 
     for msg in st.session_state.chat_history:
-        if msg["role"] == "user":
-            st.markdown(f"**🧑 You:** {msg['content']}")
-        else:
-            st.markdown(f"**🤖 AI:** {msg['content']}")
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+    
 
 # =========================================================
 # TAB 3 — Persona AI Analysis
