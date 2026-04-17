@@ -278,7 +278,7 @@ with tab2:
     # ------------------------
     # AI Call
     # ------------------------
-    col1, col2 = st.columns([3, 1])  # 👉 Ask bigger, Clear smaller
+    col1, col2 = st.columns([2, 2])  # 👉 Ask bigger, Clear smaller
 
     with col1:
         ask_clicked = st.button("💻 Ask AI", use_container_width=True)
