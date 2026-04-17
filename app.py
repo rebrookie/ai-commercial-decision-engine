@@ -229,7 +229,7 @@ with tab2:
     # Sample Questions
     # ------------------------
     
-    with st.expander("🔍 Help"):
+    with st.expander("🔍 Help (click to expand)"):
 
         st.markdown("##### 💡 Try sample questions:")
         st.markdown("""
@@ -260,13 +260,13 @@ with tab2:
 
     
     
-    cols = st.columns(2)
+        cols = st.columns(2)
 
-    for i, item in enumerate(sample_questions):
-        with cols[i % 2]:
-            if st.button(item["text"], key=f"q_{i}", use_container_width=True):
-                st.session_state.user_question = item["text"]
-                st.session_state.intent = item["intent"]
+        for i, item in enumerate(sample_questions):
+            with cols[i % 2]:
+                if st.button(item["text"], key=f"q_{i}", use_container_width=True):
+                    st.session_state.user_question = item["text"]
+                    st.session_state.intent = item["intent"]
 
     # ------------------------
     # Input Box
