@@ -178,7 +178,8 @@ with tab2:
     # ------------------------
     
     st.markdown("##### 💡 Sample questions to copy-paste and ask AI:")
-    st.markdown("""            
+    st.markdown("""
+                    
             - give me a summary of Customers and Products Performance in 2026
             - for customer C, have we achieved our goal of year 2026
             - highlight me the product(s) that with big price erosion issue.
