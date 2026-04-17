@@ -40,6 +40,15 @@ h1, h2, h3 {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<h1 style='font-size:26px; font-weight:600; margin-bottom:5px;'>
+🚀 AI Commercial Decision Engine
+</h1>
+<p style='color:gray; margin-top:0;'>
+Transforming commercial analytics from reporting → decision intelligence
+</p>
+""", unsafe_allow_html=True)
+
 
 # ------------------------
 # Session State Init
@@ -111,7 +120,7 @@ def detect_intent(question: str):
 # ------------------------
 # Title
 # ------------------------
-st.subtitle(" 🚀 AI Commercial Decision Engine")
+st.title("🚀 AI Commercial Decision Engine")
 st.markdown("Transforming commercial analytics from **reporting → decision intelligence**")
 st.info("⚠️ Demo version with limited AI usage")
 
