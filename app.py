@@ -17,37 +17,39 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 
-    st.markdown("""
-    <style>
-    /* Tab 内容卡片 */
-    .stTabs [data-baseweb="tab-panel"] {
-        background-color: #ffffff;
-        padding: 25px;
-        border-radius: 14px;
-        border: 1px solid #e6e6e6;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-        margin-top: 10px;
-    }
 
-    /* Tab 标题 */
-    .stTabs [data-baseweb="tab"] {
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    /* 选中 tab 高亮 */
-    .stTabs [aria-selected="true"] {
-        color: #1f77b4;
-    }
-
-    /* 卡片 hover（高级感） */
-    div.card:hover {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        transition: 0.3s;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 )
+
+st.markdown("""
+<style>
+/* Tab 内容卡片 */
+.stTabs [data-baseweb="tab-panel"] {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    margin-top: 10px;
+}
+
+/* Tab 标题 */
+.stTabs [data-baseweb="tab"] {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* 选中 tab 高亮 */
+.stTabs [aria-selected="true"] {
+    color: #1f77b4;
+}
+
+/* 卡片 hover（高级感） */
+div.card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # ------------------------
 # Session State Init
@@ -378,7 +380,7 @@ with tab3:
                 st.error(f"Error: {e}")
 
     end_card()
-    
+
 # =========================================================
 # Sidebar — Contact
 # =========================================================
