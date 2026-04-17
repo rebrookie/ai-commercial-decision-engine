@@ -132,8 +132,8 @@ kpis = calculate_kpis(df)
 # ------------------------
 # Raw Data
 # ------------------------
-with st.expander("🔍 View Raw Data"):
-    st.dataframe(df)
+with st.expander("🔍 Raw Data (click to collapse)", expanded=True):
+    st.dataframe(df, use_container_width=True)
 
 # ------------------------
 # Tabs
