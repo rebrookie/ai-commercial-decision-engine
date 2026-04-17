@@ -247,7 +247,7 @@ with tab2:
                 - I'll have a business review with my leadership team(c-level), give me a summary on what's happening and risk and opportunities.
                 - I have a new product Prod F a next gen product of Prod A to sell to the customer A soon, for a successful price positioning, give me some insights to prep for this.
 
-                Or to type in any qustions in the text field below.
+                Or to type in any qustions in the text field to ask AI directly.
             """)
 
     # ------------------------
