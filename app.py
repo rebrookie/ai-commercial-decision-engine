@@ -16,6 +16,37 @@ st.set_page_config(
     page_title="AI Commercial Decision Engine",
     layout="wide",
     initial_sidebar_state="collapsed"
+
+    st.markdown("""
+    <style>
+    /* Tab 内容卡片 */
+    .stTabs [data-baseweb="tab-panel"] {
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 14px;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        margin-top: 10px;
+    }
+
+    /* Tab 标题 */
+    .stTabs [data-baseweb="tab"] {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    /* 选中 tab 高亮 */
+    .stTabs [aria-selected="true"] {
+        color: #1f77b4;
+    }
+
+    /* 卡片 hover（高级感） */
+    div.card:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 )
 
 # ------------------------
@@ -46,6 +77,25 @@ INTENTS = {
     "executive_summary": "Leadership summary",
     "new_product_priceing_strategy": "New product pricing"
 }
+
+def card_container(title):
+    st.markdown(f"""
+    <div class="card" style="
+        border:1px solid #e6e6e6;
+        border-radius:14px;
+        padding:20px;
+        margin-bottom:20px;
+        background-color:#ffffff;
+    ">
+        <h3 style="margin-top:0;">{title}</h3>
+    """, unsafe_allow_html=True)
+
+def end_card():
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+
 
 # ------------------------
 # Intent Detection
@@ -103,7 +153,7 @@ tab1, tab2, tab3 = st.tabs([
 # =========================================================
 with tab1:
 
-    st.header("📊 Business Overview")
+    card_container("📊 Business Overview")
 
     col1, col2, col3 = st.columns(3)
 
@@ -112,6 +162,7 @@ with tab1:
     col3.metric("Avg Price", f"{kpis.get('avg_price', 'N/A')}")
 
     st.subheader("📈 Trend Analysis")
+    
 
     try:
         df["date"] = pd.to_datetime(df["date"])
@@ -162,16 +213,18 @@ with tab1:
         )
 
         st.plotly_chart(fig, use_container_width=True, height=600)
-
+        
     except Exception as e:
         st.warning(f"Trend analysis failed: {e}")
+
+    end_card()
 
 # =========================================================
 # TAB 2 — Ask AI
 # =========================================================
 with tab2:
 
-    st.header("💬 Ask AI about your data")
+    card_container("💬 Ask AI Assistant")
 
     MAX_USAGE = 5
     COOLDOWN_SECONDS = 10
@@ -197,7 +250,7 @@ with tab2:
                 
         """)
     
-    st.markdown("##### 💡 Try simple questions:")
+    st.markdown("##### 💡 Try quick questions:")
 
     sample_questions = [
         {"intent": "price_erosion", "text": "Price erosion analysis"},
@@ -291,13 +344,14 @@ with tab2:
             with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
     
+    end_card()
 
 # =========================================================
 # TAB 3 — Persona AI Analysis
 # =========================================================
 with tab3:
 
-    st.header("🧠 Persona-Based AI Analysis")
+    card_container("🧠 Persona-Based AI Analysis")
 
     persona = st.selectbox(
         "Choose perspective:",
@@ -323,7 +377,8 @@ with tab3:
             except Exception as e:
                 st.error(f"Error: {e}")
 
-        
+    end_card()
+    
 # =========================================================
 # Sidebar — Contact
 # =========================================================
