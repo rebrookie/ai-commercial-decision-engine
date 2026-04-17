@@ -22,17 +22,17 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-/* Tab 内容卡片 */
+/* Tab 内容区域加卡片效果 */
 .stTabs [data-baseweb="tab-panel"] {
     background-color: #ffffff;
-    padding: 25px;
-    border-radius: 14px;
+    padding: 20px;
+    border-radius: 12px;
     border: 1px solid #e6e6e6;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     margin-top: 10px;
 }
 
-/* Tab 标题 */
+/* Tab 标题更醒目 */
 .stTabs [data-baseweb="tab"] {
     font-size: 16px;
     font-weight: 600;
