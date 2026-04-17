@@ -281,11 +281,14 @@ with tab2:
 
     
 
-    st.subheader("💬 Conversation")
+    st.markdown("### 💬 Conversation")
 
-    for msg in st.session_state.chat_history:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+    chat_container = st.container(height=550)
+
+    with chat_container:
+        for msg in st.session_state.chat_history:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
     
 
 # =========================================================
