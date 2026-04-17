@@ -220,9 +220,10 @@ with tab2:
     # ------------------------
     # Input Box
     # ------------------------
-    user_question = st.text_input(
-        "Ask your question:",
-        value=st.session_state.get("user_question", "")
+    user_question = st.text_area(
+        "",
+        placeholder="Ask about pricing, growth, or customer strategy...",
+        height=120
     )
 
     # ------------------------
