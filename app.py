@@ -284,7 +284,7 @@ with tab2:
         ask_clicked = st.button("💻 Ask AI", use_container_width=True)
 
     with col2:
-        clear_clicked = st.button("🗑️ Clear Chat", use_container_width=True)
+        clear_clicked = st.button("🗑️ Clear Conversation", use_container_width=True)
     
     if clear_clicked:
         st.session_state.chat_history = []
