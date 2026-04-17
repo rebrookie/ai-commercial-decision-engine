@@ -33,6 +33,9 @@ if "intent" not in st.session_state:
 if "user_question" not in st.session_state:
     st.session_state.user_question = ""
 
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
 # ------------------------
 # Intent Definitions
 # ------------------------
@@ -243,13 +246,34 @@ with tab2:
 
             st.caption(f"🧠 Detected intent: {intent}")
 
+            # 👉 保存用户问题
+            st.session_state.chat_history.append({
+                "role": "user",
+                "content": user_question
+            })
+
+            # 👉 AI回答
             answer = generate_chat_response(user_question, df, kpis, intent)
 
-            st.markdown("### 📊 Answer")
+            # 👉 保存AI回答
+            st.session_state.chat_history.append({
+                "role": "assistant",
+                "content": answer
+            })
+
+            st.markdown("### 📊 Latest Answer")
             st.markdown(answer)
 
             st.session_state.usage_count += 1
             st.session_state.last_call_time = now
+
+    st.subheader("💬 Conversation")
+
+    for msg in st.session_state.chat_history:
+        if msg["role"] == "user":
+            st.markdown(f"**🧑 You:** {msg['content']}")
+        else:
+            st.markdown(f"**🤖 AI:** {msg['content']}")
 
 # =========================================================
 # TAB 3 — Persona AI Analysis
