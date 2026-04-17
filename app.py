@@ -214,7 +214,7 @@ with tab1:
         st.warning(f"Trend analysis failed: {e}")
 
 
-    st.markdown("Many more charts could be added for sure, but only to put one to show it's a dedicated tab for dashboards and quick summary.")
+    st.markdown("**Many more charts or analysis could be added to the page for sure, but  put one only here to show the user as a dedicated tab for dashboards and quick business summary.**")
 
     end_card()
 
