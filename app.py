@@ -161,7 +161,7 @@ with tab1:
             template="plotly_white"
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, height=600)
 
     except Exception as e:
         st.warning(f"Trend analysis failed: {e}")
