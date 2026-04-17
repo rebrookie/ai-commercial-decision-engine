@@ -231,15 +231,16 @@ with tab2:
     col1, col2 = st.columns([3, 1])  # 👉 Ask bigger, Clear smaller
 
     with col1:
-        ask_clicked = st.button("🚀 Ask AI", use_container_width=True)
+        ask_clicked = st.button("💻 Ask AI", use_container_width=True)
 
     with col2:
-        clear_clicked = st.button("🗑 Clear", use_container_width=True)
+        clear_clicked = st.button("🗑️ Clear Chat", use_container_width=True)
     
-    if st.button("🗑️ Clear Chat"):
+    if clear_clicked:
         st.session_state.chat_history = []
+        st.session_state.usage_count = 0
     
-    if st.button("💻 Ask AI"):
+    if ask_clicked:
 
         now = time.time()
 
