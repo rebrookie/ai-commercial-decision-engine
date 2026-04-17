@@ -25,7 +25,7 @@ st.markdown("""
 
 /* 主内容区域限制宽度 + 居中 */
 .block-container {
-    max-width: 700px;   /* 👈 控制宽度 */
+    max-width: 800px;   /* 👈 控制宽度 */
     padding-top: 2rem;
     padding-bottom: 2rem;
     margin-left: auto;
